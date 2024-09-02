@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useState } from "react";
+import { uploadFileToFirebase } from "./firebaseUpload";
 
 function App() {
+  const [imageUpload, setImageUpload] = useState(null);
+  const [imgURL, setImgURL] = useState("");
+
+  const handleUpload = () => {
+    uploadFileToFirebase(imageUpload, setImgURL);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input
+        type="file"
+        onChange={(event) => setImageUpload(event.target.files[0])}
+      />
+      <button onClick={handleUpload}>Upload Image</button>
+      <p>{imgURL}</p>
     </div>
   );
 }
