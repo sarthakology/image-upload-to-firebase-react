@@ -3,14 +3,12 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "./firebase";
 import { v4 } from "uuid";
 
-export const uploadFileToFirebase = (imageUpload, setImgURL) => {
-  if (imageUpload == null) return;
-  
+export const uploadFileToFirebase = (imageUpload) => {
+  if (!imageUpload) return Promise.reject("No file selected");
+
   const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
-  
-  uploadBytes(imageRef, imageUpload).then((snapshot) => {
-    getDownloadURL(snapshot.ref).then((url) => {
-      setImgURL(url);
-    });
+
+  return uploadBytes(imageRef, imageUpload).then((snapshot) => {
+    return getDownloadURL(snapshot.ref);
   });
 };

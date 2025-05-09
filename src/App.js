@@ -6,8 +6,13 @@ function App() {
   const [imageUpload, setImageUpload] = useState(null);
   const [imgURL, setImgURL] = useState("");
 
-  const handleUpload = () => {
-    uploadFileToFirebase(imageUpload, setImgURL);
+  const handleUpload = async () => {
+    try {
+      const url = await uploadFileToFirebase(imageUpload);
+      setImgURL(url);
+    } catch (error) {
+      console.error("Upload failed:", error);
+    }
   };
 
   return (
